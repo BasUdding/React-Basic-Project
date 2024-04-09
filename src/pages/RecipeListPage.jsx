@@ -1,13 +1,11 @@
-import { Flex, Center, Heading, Box } from '@chakra-ui/react';
+import { Flex, Center, Heading, Button, Box, Tag } from '@chakra-ui/react';
 import { data } from '../utils/data';
 import { SearchInput } from '../components/ui/SearchInput';
 import { useState } from 'react';
 import { RecipeCard } from '../components/ui/RecipeCard';
-import { RecipePage } from './RecipePage';
 
-export const RecipeListPage = ({ onClick }) => {
+export const RecipeListPage = ({ recipe, onClick }) => {
   const [searchQuery, setSearchQuery] = useState('');
-  const [selectedRecipe, setSelectedRecipe] = useState(null);
 
   const handleSearch = (event) => {
     setSearchQuery(event.target.value);
@@ -24,16 +22,12 @@ export const RecipeListPage = ({ onClick }) => {
     return nameMatch || healthLabelsMatch;
   });
 
-  const handleRecipeClick = (index) => {
-    setSelectedRecipe(filteredRecipes[index]);
-  };
-
   const greeting = 'Winc Recipe Searcher';
 
   return (
     <Center>
       <Flex direction='column' alignItems='center'>
-        <Box textAlign='center' mb='4'>
+        <Box textAlign='center' mb='3'>
           <Heading mt='4' p='3'>
             {' '}
             {greeting}
@@ -42,11 +36,12 @@ export const RecipeListPage = ({ onClick }) => {
         <Box mb='4'>
           <SearchInput
             w={250}
-            mb={4}
+            mb={1}
             onChange={handleSearch}
             value={searchQuery}
           />
         </Box>
+
         <Flex
           flexWrap='wrap'
           justifyContent='center'
@@ -54,16 +49,17 @@ export const RecipeListPage = ({ onClick }) => {
           mt='5'
         >
           {filteredRecipes.map((recipe, index) => (
-            <Box
+            <RecipeCard
               key={index}
-              onClick={() => handleRecipeClick(index)}
-              cursor='pointer'
-            >
-              <RecipeCard recipe={recipe.recipe} />
-            </Box>
+              recipe={recipe.recipe}
+              onClick={() =>
+                onClick(
+                  data.hits.findIndex((item) => item.recipe === recipe.recipe)
+                )
+              }
+            />
           ))}
         </Flex>
-        {selectedRecipe && <RecipePage recipe={selectedRecipe.recipe} />}
       </Flex>
     </Center>
   );

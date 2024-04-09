@@ -1,6 +1,6 @@
 import { Text, Flex, Tag, Center, Heading, Box } from '@chakra-ui/react';
 
-export const RecipeInfo = ({ recipe }) => {
+export const RecipeInfo = ({ recipe, onClick }) => {
   return (
     <Flex flexDirection='column'>
       <Center>
@@ -11,51 +11,52 @@ export const RecipeInfo = ({ recipe }) => {
         </Text>
       </Center>
       <Box>
-        <Center>
-          <Heading size='md' mb='2'>
-            {recipe.label}
-          </Heading>
-        </Center>
+        <Flex justifyContent='center' alignItems='center' mb='2'>
+          <Heading size='md'>{recipe.label}</Heading>
+        </Flex>
       </Box>
-      <Center></Center>
       <Center>
-        <Text mt='1' mb='3'>
-          <Center>Dish Type:</Center>
-          <Flex mt='2' flexWrap='wrap'>
-            {recipe.dishType.map((dishType, index) => (
-              <Tag key={index}>{dishType.toUpperCase()}</Tag>
-            ))}
-          </Flex>
-        </Text>
+        <Box mt='1' mb='3'>
+          {recipe.dishType.map((dishType, index) => (
+            <Tag key={index} colorScheme='blue' variant='subtle'>
+              {dishType.toUpperCase()}
+            </Tag>
+          ))}
+        </Box>
       </Center>
-      {recipe.healthLabels && (
-        <Center>
-          <Text mt='1' mb='3'>
-            Health Labels:
-            <Flex flexWrap='wrap'>
-              {recipe.healthLabels
-                .filter((label) => label === 'Vegan' || label === 'Vegetarian')
-                .map((healthLabel, index) => (
-                  <Tag
-                    key={index}
-                    variant='subtle'
-                    colorScheme='green'
-                    mr='2'
-                    mb='1'
-                  >
-                    {healthLabel.toUpperCase()}
-                  </Tag>
-                ))}
-            </Flex>
-          </Text>
-        </Center>
-      )}
-      {recipe.cautions && (
+      {recipe.healthLabels &&
+        recipe.healthLabels.some(
+          (label) => label === 'Vegan' || label === 'Vegetarian'
+        ) && (
+          <Box mt='1' mb='3'>
+            <Center>Health Labels:</Center>
+            <Center>
+              <Flex mt='2' flexWrap='wrap'>
+                {recipe.healthLabels
+                  .filter(
+                    (label) => label === 'Vegan' || label === 'Vegetarian'
+                  )
+                  .map((healthLabel, index) => (
+                    <Tag
+                      key={index}
+                      variant='subtle'
+                      colorScheme='green'
+                      mr='2'
+                      mb='1'
+                    >
+                      {healthLabel.toUpperCase()}
+                    </Tag>
+                  ))}
+              </Flex>
+            </Center>
+          </Box>
+        )}
+      {recipe.cautions && recipe.cautions.length > 0 && (
         <Center>
           <Flex flexDirection='column'>
-            <Text mt='1' mb='3'>
-              Cautions:
-            </Text>
+            <Box mt='1' mb='3'>
+              <Center> Cautions: </Center>
+            </Box>
             <Flex flexWrap='wrap'>
               {recipe.cautions.map((caution, index) => (
                 <Tag

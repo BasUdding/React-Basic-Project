@@ -1,8 +1,9 @@
 import { Button, Box, Flex, Image, Heading, Text, Tag } from '@chakra-ui/react';
 
-export const RecipePage = ({ recipe }) => {
+export const RecipePage = ({ recipe, onClick }) => {
   return (
     <Box
+      backgroundColor='blue.50'
       borderWidth='1px'
       borderRadius='lg'
       overflow='hidden'
@@ -12,7 +13,7 @@ export const RecipePage = ({ recipe }) => {
       m='auto'
     >
       <Box mb='4'>
-        <Button colorScheme='teal' variant='solid'>
+        <Button colorScheme='teal' variant='solid' onClick={() => onClick()}>
           Back
         </Button>
       </Box>
@@ -30,12 +31,22 @@ export const RecipePage = ({ recipe }) => {
 
       <Flex>
         <Box w='50%' pr='4'>
-          <Heading size='md'>{recipe.label}</Heading>
-          <Text mb='2'>Cooking Time: {recipe.totalTime} minutes</Text>
-          <Text mb='2'>Servings: {recipe.yield}</Text>
-          <Text mb='4'>Ingredients:</Text>
+          <Heading pl='4' mb='2' size='md'>
+            {recipe.label}
+          </Heading>
+          <Text pl='4' mb='2'>
+            Cooking Time: {recipe.totalTime} minutes
+          </Text>
+          <Text pl='4' mb='2'>
+            Servings: {recipe.yield}
+          </Text>
+          <Text as='b' pl='4' fontSize='2xl' mb='4'>
+            Ingredients:
+          </Text>
           {recipe.ingredientLines.map((ingredient, index) => (
-            <Text key={index}>{ingredient}</Text>
+            <Text pl='4' key={index}>
+              {ingredient}
+            </Text>
           ))}
         </Box>
 
@@ -62,7 +73,7 @@ export const RecipePage = ({ recipe }) => {
               <Tag
                 key={index}
                 variant='subtle'
-                colorScheme='blue'
+                colorScheme='green'
                 mr='2'
                 mb='1'
               >
